@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import NextAuthProvider from "@/compononents/ui/NextAuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="bg-zinc-800 h-full">
-      <body className={inter.className}>{children}</body>
+      <NextAuthProvider>
+        <body className={inter.className}>{children}</body>
+      </NextAuthProvider>
     </html>
   );
 }

@@ -47,5 +47,6 @@ export async function POST(request: Request) {
     secure: true,
     path: "/",
   });
+
   return authedResponse;
 }
