@@ -7,7 +7,7 @@ interface AvatarProps {
 
 export default function Avatar({ profileImg }: AvatarProps) {
   return (
-    <div className="relative w-7 h-7 ">
+    <div className="relative w-8 h-8 ">
       {profileImg ? (
         <Image
           referrerPolicy="no-referrer"
