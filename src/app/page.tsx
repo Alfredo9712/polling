@@ -23,7 +23,10 @@ export default function Home() {
         </p>
       </div>
       <div>
-        <Button className="flex items-center gap-3" onClick={() => signIn()}>
+        <Button
+          className="flex items-center gap-3"
+          onClick={() => signIn("google", { callbackUrl: "/polls" })}
+        >
           <LogInIcon /> Continue with Google
         </Button>
       </div>
