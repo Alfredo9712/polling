@@ -16,9 +16,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-zinc-800 h-full">
+    <html lang="en">
       <NextAuthProvider>
-        <body className={inter.className}>{children}</body>
+        <body className={`${inter.className} bg-gray-50 h-full`}>
+          <div className="bg-blue-300 h-screen max-w-screen-2xl mx-auto">
+            {children}
+          </div>
+        </body>
       </NextAuthProvider>
     </html>
   );
