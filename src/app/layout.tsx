@@ -1,9 +1,14 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import NextAuthProvider from "@/compononents/ui/NextAuthProvider";
+import { Open_Sans } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+import NextAuthProvider from "@/compononents/NextAuthProvider";
+import Navbar from "@/compononents/ui/navbar";
+
+const siteFont = Open_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700", "600", "800"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,8 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <NextAuthProvider>
-        <body className={`${inter.className} bg-gray-50 h-full`}>
-          <div className="bg-blue-300 h-screen max-w-screen-2xl mx-auto">
+        <body className={`${siteFont.className} bg-gray-50 h-full px-10 `}>
+          <div className="h-screen max-w-screen-2 dxl mx-auto">
+            <Navbar />
             {children}
           </div>
         </body>
