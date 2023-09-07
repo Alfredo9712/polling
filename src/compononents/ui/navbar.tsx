@@ -16,9 +16,11 @@ export default async function Navbar() {
         </Link>
       </div>
       {session ? (
-        <div>
-          <Avatar profileImg={session?.user?.image} />
-        </div>
+        <ul>
+          <li>
+            <Avatar profileImg={session?.user?.image} />
+          </li>
+        </ul>
       ) : null}
     </div>
   );
