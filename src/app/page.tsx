@@ -1,12 +1,19 @@
 "use client";
 
-import Image from "next/image";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSession, signIn } from "next-auth/react";
 
-import { Button } from "@/compononents/ui/button";
 import { LogInIcon } from "lucide-react";
 
+import { Button } from "@/compononents/ui/button";
+
 export default function Home() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  useEffect(() => {
+    if (session) router.push("/polls");
+  });
   return (
     <div className="h-[50vh] flex  flex-col items-center gap-9 justify-center">
       <div className="text-center max-w-3xl transition-opacity ease-in duration-700 opacity-100 ">
@@ -22,14 +29,13 @@ export default function Home() {
           immediate feedback.
         </p>
       </div>
-      <div>
-        <Button
-          className="flex items-center gap-3"
-          onClick={() => signIn("google", { callbackUrl: "/polls" })}
-        >
-          <LogInIcon /> Continue with Google
-        </Button>
-      </div>
+
+      <Button
+        className="flex items-center gap-3"
+        onClick={() => signIn("google", { callbackUrl: "/polls" })}
+      >
+        <LogInIcon /> Continue with Google
+      </Button>
     </div>
   );
 }
