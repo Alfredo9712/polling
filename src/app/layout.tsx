@@ -4,6 +4,7 @@ import { Open_Sans } from "next/font/google";
 
 import NextAuthProvider from "@/compononents/NextAuthProvider";
 import Navbar from "@/compononents/ui/navbar";
+import ReactQueryProvider from "@/compononents/ReactQueryProvider";
 
 const siteFont = Open_Sans({
   subsets: ["latin"],
@@ -23,12 +24,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <NextAuthProvider>
-        <body className={`${siteFont.className} bg-gray-50 h-full px-10 `}>
-          <div className="h-screen max-w-screen-xl mx-auto">
-            <Navbar />
-            {children}
-          </div>
-        </body>
+        <ReactQueryProvider>
+          <body className={`${siteFont.className} bg-gray-50 h-full px-10 `}>
+            <div className="h-screen max-w-screen-xl mx-auto">
+              <Navbar />
+              {children}
+            </div>
+          </body>
+        </ReactQueryProvider>
       </NextAuthProvider>
     </html>
   );
