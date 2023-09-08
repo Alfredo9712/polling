@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const alfredo = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: "alfredo98.rm@gmail.com" },
     update: {
       polls: {
