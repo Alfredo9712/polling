@@ -54,7 +54,7 @@ model Poll {
   description String?
   author      User         @relation(fields: [userId], references: [id])
   userId      String
-  PollOption  PollOption[]
+  pollOption  PollOption[]
 }
 
 model PollOption {
@@ -62,7 +62,7 @@ model PollOption {
   text   String
   poll   Poll   @relation(fields: [pollId], references: [id])
   pollId String
-  Vote   Vote[]
+  vote   Vote[]
 }
 
 model Vote {

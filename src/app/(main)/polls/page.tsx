@@ -1,8 +1,7 @@
-import axios from "axios";
 import prisma from "../../../../prisma/prismaClient";
 import Link from "next/link";
 
-import { Plus, PlusIcon } from "lucide-react";
+import { Plus } from "lucide-react";
 
 export default async function PollsPage() {
   //TODO: replace this with polls
