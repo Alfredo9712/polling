@@ -17,6 +17,19 @@ export async function GET(
     where: {
       id: pollid,
     },
+    include: {
+      pollOption: {
+        include: {
+          vote: true,
+        },
+      },
+      author: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
+    },
   });
 
   return NextResponse.json({ poll });

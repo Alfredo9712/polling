@@ -15,6 +15,7 @@ export default function Avatar({ profileImg }: AvatarProps) {
           alt="image of user"
           fill
           className="rounded-full"
+          sizes="32px"
         />
       ) : (
         <LucidePersonStanding />

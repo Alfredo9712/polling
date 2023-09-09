@@ -1,5 +1,9 @@
 export type PollType =
   | ({
+      author: {
+        name: string | null;
+        image: string | null;
+      };
       pollOption: ({
         vote: {
           id: string;
