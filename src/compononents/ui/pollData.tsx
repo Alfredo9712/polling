@@ -4,13 +4,14 @@ import { fetchPoll } from "@/utils/apis";
 import React from "react";
 import { useQuery } from "react-query";
 import PollOption from "./pollOption";
+import axios from "axios";
 
 interface Props {
   initialPoll: PollType;
 }
 
 export default function PollData({ initialPoll }: Props) {
-  const { data: poll, isLoading } = useQuery({
+  const { data: poll } = useQuery({
     queryKey: ["poll", initialPoll?.id],
     queryFn: () => fetchPoll(initialPoll?.id),
     initialData: initialPoll,
@@ -19,11 +20,24 @@ export default function PollData({ initialPoll }: Props) {
   if (!poll) return <h1>No poll data</h1>;
 
   const { pollOptions } = poll;
-  console.log(pollOptions);
+
+  const handleVote = async (pollOptionId: string) => {
+    try {
+      const { data } = await axios.post(`/api/private/poll/${poll.id}/vote`, {
+        pollOptionId,
+      });
+      console.log(data);
+    } catch (error) {}
+  };
+
   return (
-    <div>
+    <div className="mt-14 grid grid-cols-3 gap-10 gap-y-48">
       {pollOptions.map((pollOption) => (
-        <PollOption key={pollOption.id} pollOption={pollOption} />
+        <PollOption
+          key={pollOption.id}
+          pollOption={pollOption}
+          handleVote={handleVote}
+        />
       ))}
     </div>
   );

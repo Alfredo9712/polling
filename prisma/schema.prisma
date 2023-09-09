@@ -67,7 +67,6 @@ model PollOptions {
 
 model Votes {
   id           String      @id @default(cuid())
-  voterId      Int
   option       PollOptions @relation(fields: [pollOptionId], references: [id])
   pollOptionId String
   createdAt    DateTime    @default(now())
