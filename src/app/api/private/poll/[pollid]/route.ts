@@ -18,9 +18,9 @@ export async function GET(
       id: pollid,
     },
     include: {
-      pollOption: {
+      pollOptions: {
         include: {
-          vote: true,
+          votes: true,
         },
       },
       author: {

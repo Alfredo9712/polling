@@ -11,7 +11,7 @@ async function main() {
           title: "Team Meeting Time Preferences",
           description:
             "We need to schedule our weekly team meeting. Please vote for your preferred meeting time.",
-          pollOption: {
+          pollOptions: {
             create: [
               { text: "Monday 9:00 AM" },
               { text: "Tuesday 2:00 PM" },

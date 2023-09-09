@@ -4,7 +4,7 @@ import axios from "axios";
 import { PollType } from "@/lib/types";
 import { fetchPoll } from "@/utils/apis";
 import Avatar from "@/compononents/ui/avatar";
-import PollData from "@/compononents/ui/poll";
+import PollData from "@/compononents/ui/pollData";
 
 interface Poll {
   params: {
@@ -16,10 +16,8 @@ export default async function Poll({ params }: Poll) {
   const { pollId } = params;
 
   const poll = await fetchPoll(pollId);
-  console.log(poll);
-  if (!poll) return <h1>Poll not found</h1>;
 
-  console.log(poll);
+  if (!poll) return <h1>Poll not found</h1>;
 
   const { title, description, author } = poll;
   const { image, name } = author;

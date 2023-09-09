@@ -49,28 +49,28 @@ model User {
 }
 
 model Poll {
-  id          String       @id @default(cuid())
+  id          String        @id @default(cuid())
   title       String
   description String?
-  author      User         @relation(fields: [userId], references: [id])
+  author      User          @relation(fields: [userId], references: [id])
   userId      String
-  pollOption  PollOption[]
+  pollOptions PollOptions[]
 }
 
-model PollOption {
-  id     String @id @default(cuid())
+model PollOptions {
+  id     String  @id @default(cuid())
   text   String
-  poll   Poll   @relation(fields: [pollId], references: [id])
+  poll   Poll    @relation(fields: [pollId], references: [id])
   pollId String
-  vote   Vote[]
+  votes  Votes[]
 }
 
-model Vote {
-  id           String     @id @default(cuid())
+model Votes {
+  id           String      @id @default(cuid())
   voterId      Int
-  option       PollOption @relation(fields: [pollOptionId], references: [id])
+  option       PollOptions @relation(fields: [pollOptionId], references: [id])
   pollOptionId String
-  createdAt    DateTime   @default(now())
+  createdAt    DateTime    @default(now())
 }
 
 model VerificationToken {

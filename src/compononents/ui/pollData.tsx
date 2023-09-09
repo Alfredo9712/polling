@@ -3,6 +3,7 @@ import { PollType } from "@/lib/types";
 import { fetchPoll } from "@/utils/apis";
 import React from "react";
 import { useQuery } from "react-query";
+import PollOption from "./pollOption";
 
 interface Props {
   initialPoll: PollType;
@@ -14,8 +15,16 @@ export default function PollData({ initialPoll }: Props) {
     queryFn: () => fetchPoll(initialPoll?.id),
     initialData: initialPoll,
   });
-  console.log(poll);
-  if (!poll) return <div>No poll </div>;
-  const { title } = poll;
-  return <div>{title}</div>;
+
+  if (!poll) return <h1>No poll data</h1>;
+
+  const { pollOptions } = poll;
+  console.log(pollOptions);
+  return (
+    <div>
+      {pollOptions.map((pollOption) => (
+        <PollOption key={pollOption.id} pollOption={pollOption} />
+      ))}
+    </div>
+  );
 }
