@@ -9,14 +9,13 @@ interface Props {
 }
 
 export default function PollData({ initialPoll }: Props) {
-  const { data, isLoading } = useQuery({
+  const { data: poll, isLoading } = useQuery({
     queryKey: ["poll", initialPoll?.id],
     queryFn: () => fetchPoll(initialPoll?.id),
     initialData: initialPoll,
   });
-
-  console.log(data);
-
-  if (!data) return <div>No Poll Options available </div>;
-  return <div>poll</div>;
+  console.log(poll);
+  if (!poll) return <div>No poll </div>;
+  const { title } = poll;
+  return <div>{title}</div>;
 }

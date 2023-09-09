@@ -32,5 +32,5 @@ export async function GET(
     },
   });
 
-  return NextResponse.json({ poll });
+  return NextResponse.json(poll);
 }

@@ -15,8 +15,8 @@ interface Poll {
 export default async function Poll({ params }: Poll) {
   const { pollId } = params;
 
-  const { poll } = await fetchPoll(pollId);
-
+  const poll = await fetchPoll(pollId);
+  console.log(poll);
   if (!poll) return <h1>Poll not found</h1>;
 
   console.log(poll);

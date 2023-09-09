@@ -7,9 +7,9 @@ export const fetchUsers = async () => {
 };
 
 export const fetchPoll = async (pollId: string | undefined) => {
-  const { data } = await axios.get(
+  const response = await axios.get(
     `http://localhost:3000/api/private/poll/${pollId}`
   );
 
-  return data;
+  return response.data as PollType;
 };
