@@ -2,7 +2,7 @@
 import { PollType } from "@/lib/types";
 import { fetchPoll } from "@/utils/apis";
 import React, { useEffect } from "react";
-import { useQuery, QueryClient, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import PollOption from "./pollOption";
 import axios from "axios";
 import Pusher from "pusher-js";
@@ -14,7 +14,6 @@ interface Props {
 export default function PollData({ initialPoll }: Props) {
   const queryClient = useQueryClient();
 
-  console.log(initialPoll?.id);
   const { data: poll } = useQuery({
     queryKey: ["polls", "detail", initialPoll?.id],
     queryFn: () => fetchPoll(initialPoll?.id),
