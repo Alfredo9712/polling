@@ -64,23 +64,3 @@ export async function POST(
 
   return NextResponse.json(poll);
 }
-
-// where: {
-//     id: pollid,
-//   },
-//   data: {
-//     pollOptions: {
-//       update: {
-//         where: {
-//           id: pollOptionId,
-//         },
-//         data: {
-//           votes: {
-//             connect: {
-//               id: pollOptionId,
-//             },
-//           },
-//         },
-//       },
-//     },
-//   },
