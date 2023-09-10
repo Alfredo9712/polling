@@ -1,21 +1,45 @@
 "use client";
 import { PollType } from "@/lib/types";
 import { fetchPoll } from "@/utils/apis";
-import React from "react";
-import { useQuery } from "react-query";
+import React, { useEffect } from "react";
+import { useQuery, QueryClient, useQueryClient } from "@tanstack/react-query";
 import PollOption from "./pollOption";
 import axios from "axios";
+import Pusher from "pusher-js";
 
 interface Props {
   initialPoll: PollType;
 }
 
 export default function PollData({ initialPoll }: Props) {
+  const queryClient = useQueryClient();
+
+  console.log(initialPoll?.id);
   const { data: poll } = useQuery({
-    queryKey: ["poll", initialPoll?.id],
+    queryKey: ["polls", "detail", initialPoll?.id],
     queryFn: () => fetchPoll(initialPoll?.id),
     initialData: initialPoll,
   });
+
+  useEffect(() => {
+    const pusherClient = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+      cluster: "us3",
+    });
+
+    const channel = pusherClient.subscribe(`poll`);
+
+    channel.bind("vote", (data: any) => {
+      console.log(data);
+      const queryKey = [...data.entity, data.id].filter(Boolean);
+      console.log(queryKey);
+      queryClient.invalidateQueries({ queryKey });
+    });
+
+    return () => {
+      channel.unbind("vote");
+      pusherClient.unsubscribe(`poll`);
+    };
+  }, []);
 
   if (!poll) return <h1>No poll data</h1>;
 
@@ -26,13 +50,12 @@ export default function PollData({ initialPoll }: Props) {
       const { data } = await axios.post(`/api/private/poll/${poll.id}/vote`, {
         pollOptionId,
       });
-      console.log(data);
     } catch (error) {}
   };
 
   return (
     <div className="mt-14 grid grid-cols-3 gap-10 gap-y-48">
-      {pollOptions.map((pollOption) => (
+      {pollOptions?.map((pollOption) => (
         <PollOption
           key={pollOption.id}
           pollOption={pollOption}

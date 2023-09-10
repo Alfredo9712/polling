@@ -1,12 +1,6 @@
-import { notFound } from "next/navigation";
 import prisma from "../../../../../prisma/prismaClient";
-import axios from "axios";
-import { PollType } from "@/lib/types";
-import { fetchPoll } from "@/utils/apis";
 import Avatar from "@/compononents/ui/avatar";
 import PollData from "@/compononents/ui/pollData";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 interface Poll {
   params: {
