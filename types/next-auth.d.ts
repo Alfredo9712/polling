@@ -6,7 +6,7 @@ declare module "next-auth" {
    */
   interface Session {
     user: {
-      /** The user's postal address. */
+      /** The user's id from prisma. */
       id: string | null | undefined;
     } & DefaultSession["user"];
   }

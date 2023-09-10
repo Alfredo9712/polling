@@ -26,7 +26,6 @@ export type PollType =
 export type PollOptionType = {
   votes: {
     id: string;
-    voterId: number;
     pollOptionId: string;
     createdAt: Date;
   }[];
