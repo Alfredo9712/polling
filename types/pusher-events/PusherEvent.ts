@@ -1,4 +1,4 @@
-export type VoteEvent = {
+export type PusherEvent = {
   entity: string[];
   id: string;
 };

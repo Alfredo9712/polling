@@ -6,7 +6,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import PollOption from "./pollOption";
 import axios from "axios";
 import Pusher from "pusher-js";
-import { VoteEvent } from "../../../types/pusher-events/Vote";
+import type { PusherEvent } from "../../../types/pusher-events/PusherEvent";
 
 interface Props {
   initialPoll: PollType;
@@ -28,7 +28,7 @@ export default function PollData({ initialPoll }: Props) {
 
     const channel = pusherClient.subscribe(`poll`);
 
-    channel.bind("vote", (event: VoteEvent) => {
+    channel.bind("vote", (event: PusherEvent) => {
       const queryKey = [...event.entity, event.id].filter(Boolean);
       queryClient.invalidateQueries({ queryKey });
     });
