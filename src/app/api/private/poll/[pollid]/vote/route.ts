@@ -22,7 +22,7 @@ export async function POST(
   if (!session) {
     return new Response("Unauthorized", { status: 401 });
   }
-
+  // TODO: add validation to see if user has already voted on this poll
   const poll = await prisma.poll.update({
     where: {
       id: pollid,
@@ -35,14 +35,7 @@ export async function POST(
           },
           data: {
             votes: {
-              connectOrCreate: {
-                where: {
-                  id: session.user.id as string,
-                },
-                create: {
-                  id: session.user.id as string,
-                },
-              },
+              create: [{ userId: session.user.id! }],
             },
           },
         },

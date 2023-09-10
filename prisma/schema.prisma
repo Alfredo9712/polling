@@ -46,6 +46,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   polls         Poll[]
+  Votes         Votes[]
 }
 
 model Poll {
@@ -67,9 +68,11 @@ model PollOptions {
 
 model Votes {
   id           String      @id @default(cuid())
+  voterId      User        @relation(fields: [userId], references: [id])
   option       PollOptions @relation(fields: [pollOptionId], references: [id])
   pollOptionId String
   createdAt    DateTime    @default(now())
+  userId       String
 }
 
 model VerificationToken {
