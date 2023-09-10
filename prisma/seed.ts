@@ -8,16 +8,16 @@ async function main() {
     update: {
       polls: {
         create: {
-          title: "Team Meeting Time Preferences",
+          title: "Movie Night Decision",
           description:
-            "We need to schedule our weekly team meeting. Please vote for your preferred meeting time.",
+            "Help us choose the movie for our next movie night. Cast your vote",
           pollOptions: {
             create: [
-              { text: "Monday 9:00 AM" },
-              { text: "Tuesday 2:00 PM" },
-              { text: "Wednesday 4:00 PM" },
-              { text: "Thursday 11:00 AM" },
-              { text: "Friday 3:00 PM" },
+              { text: "Action/Adventure" },
+              { text: "Comedy" },
+              { text: "Sci-Fi/Fantasy" },
+              { text: "Romance" },
+              { text: "Documentary" },
             ],
           },
         },
