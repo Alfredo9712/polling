@@ -5,6 +5,8 @@ import { PollType } from "@/lib/types";
 import { fetchPoll } from "@/utils/apis";
 import Avatar from "@/compononents/ui/avatar";
 import PollData from "@/compononents/ui/pollData";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 interface Poll {
   params: {
@@ -15,7 +17,26 @@ interface Poll {
 export default async function Poll({ params }: Poll) {
   const { pollId } = params;
 
-  const poll = await fetchPoll(pollId);
+  //note you cant call route handelers in server components
+
+  const poll = await prisma.poll.findUnique({
+    where: {
+      id: pollId,
+    },
+    include: {
+      pollOptions: {
+        include: {
+          votes: true,
+        },
+      },
+      author: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
+    },
+  });
 
   if (!poll) return <h1>Poll not found</h1>;
 

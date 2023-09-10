@@ -4,7 +4,17 @@ export type PollType =
         name: string | null;
         image: string | null;
       };
-      pollOptions: PollOptionType[];
+      pollOptions: ({
+        votes: {
+          id: string;
+          pollOptionId: string;
+          createdAt: Date;
+        }[];
+      } & {
+        id: string;
+        text: string;
+        pollId: string;
+      })[];
     } & {
       id: string;
       title: string;
