@@ -13,3 +13,14 @@ export const fetchPoll = async (pollId: string | undefined) => {
 
   return response.data as PollType;
 };
+
+export const handleVote = async (
+  pollOptionId: string,
+  pollId: string | undefined
+) => {
+  try {
+    const { data } = await axios.post(`/api/private/poll/${pollId}/vote`, {
+      pollOptionId,
+    });
+  } catch (error) {}
+};

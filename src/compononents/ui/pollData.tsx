@@ -1,8 +1,8 @@
 "use client";
 import { PollType } from "@/lib/types";
-import { fetchPoll } from "@/utils/apis";
+import { fetchPoll, handleVote } from "@/utils/apis";
 import React, { useEffect } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import PollOption from "./pollOption";
 import axios from "axios";
 import Pusher from "pusher-js";
@@ -19,6 +19,14 @@ export default function PollData({ initialPoll }: Props) {
     queryKey: ["polls", "detail", initialPoll?.id],
     queryFn: () => fetchPoll(initialPoll?.id),
     initialData: initialPoll,
+  });
+
+  const pollMutation = useMutation({
+    mutationFn: (pollOptionId: string) =>
+      handleVote(pollOptionId, initialPoll?.id),
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
   useEffect(() => {
@@ -43,12 +51,8 @@ export default function PollData({ initialPoll }: Props) {
 
   const { pollOptions } = poll;
 
-  const handleVote = async (pollOptionId: string) => {
-    try {
-      const { data } = await axios.post(`/api/private/poll/${poll.id}/vote`, {
-        pollOptionId,
-      });
-    } catch (error) {}
+  const handleVoteClick = async (pollOptionId: string) => {
+    pollMutation.mutate(pollOptionId);
   };
 
   return (
@@ -57,7 +61,7 @@ export default function PollData({ initialPoll }: Props) {
         <PollOption
           key={pollOption.id}
           pollOption={pollOption}
-          handleVote={handleVote}
+          handleVote={handleVoteClick}
         />
       ))}
     </div>
