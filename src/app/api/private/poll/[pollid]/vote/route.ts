@@ -50,6 +50,13 @@ export async function POST(
       return NextResponse.json(poll);
     }
 
+    // delete previous votes
+    await prisma.votes.deleteMany({
+      where: {
+        userId: session.user.id!,
+      },
+    });
+
     const poll = await prisma.poll.update({
       where: {
         id: pollid,
