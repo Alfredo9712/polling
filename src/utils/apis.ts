@@ -1,5 +1,5 @@
 import { PollType } from "@/lib/types";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export const fetchUsers = async () => {
   const data = await axios("/api/private/users");
@@ -14,13 +14,11 @@ export const fetchPoll = async (pollId: string | undefined) => {
   return response.data as PollType;
 };
 
-export const handleVote = async (
+export const handleVoteMutation = async (
   pollOptionId: string,
   pollId: string | undefined
 ) => {
-  try {
-    const { data } = await axios.post(`/api/private/poll/${pollId}/vote`, {
-      pollOptionId,
-    });
-  } catch (error) {}
+  await axios.post(`/api/private/poll/${pollId}/vote`, {
+    pollOptionId,
+  });
 };

@@ -22,38 +22,43 @@ export async function POST(
   if (!session) {
     return new Response("Unauthorized", { status: 401 });
   }
-  // TODO: add validation to see if user has already voted on this poll
-  const poll = await prisma.poll.update({
-    where: {
-      id: pollid,
-    },
-    data: {
-      pollOptions: {
-        update: {
-          where: {
-            id: pollOptionId,
-          },
-          data: {
-            votes: {
-              create: [{ userId: session.user.id! }],
+
+  try {
+    // TODO: add validation to see if user has already voted on this poll
+    const poll = await prisma.poll.update({
+      where: {
+        id: pollid,
+      },
+      data: {
+        pollOptions: {
+          update: {
+            where: {
+              id: pollOptionId,
+            },
+            data: {
+              votes: {
+                create: [{ userId: session.user.id! }],
+              },
             },
           },
         },
       },
-    },
-    include: {
-      pollOptions: {
-        include: {
-          votes: true,
+      include: {
+        pollOptions: {
+          include: {
+            votes: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  await pusherServer.trigger(`poll`, "vote", {
-    entity: ["polls", "detail"],
-    id: poll.id,
-  });
+    await pusherServer.trigger(`poll`, "vote", {
+      entity: ["polls", "detail"],
+      id: poll.id,
+    });
 
-  return NextResponse.json(poll);
+    return NextResponse.json(poll);
+  } catch (error) {
+    return new Response("Invalid request", { status: 400 });
+  }
 }

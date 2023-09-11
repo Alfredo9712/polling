@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 import NextAuthProvider from "@/compononents/NextAuthProvider";
 import Navbar from "@/compononents/ui/navbar";
@@ -30,6 +31,7 @@ export default function RootLayout({
               <Navbar />
               {children}
             </div>
+            <Toaster />
           </body>
         </ReactQueryProvider>
       </NextAuthProvider>

@@ -1,12 +1,13 @@
 "use client";
 import { PollType } from "@/lib/types";
-import { fetchPoll, handleVote } from "@/utils/apis";
+import { fetchPoll, handleVoteMutation } from "@/utils/apis";
 import React, { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import PollOption from "./pollOption";
-import axios from "axios";
 import Pusher from "pusher-js";
 import type { PusherEvent } from "../../../types/pusher-events/PusherEvent";
+import { toast } from "react-hot-toast";
+import { AxiosError } from "axios";
 
 interface Props {
   initialPoll: PollType;
@@ -20,12 +21,13 @@ export default function PollData({ initialPoll }: Props) {
     queryFn: () => fetchPoll(initialPoll?.id),
     initialData: initialPoll,
   });
-
   const pollMutation = useMutation({
     mutationFn: (pollOptionId: string) =>
-      handleVote(pollOptionId, initialPoll?.id),
+      handleVoteMutation(pollOptionId, initialPoll?.id),
     onError: (error) => {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast(error.response?.data);
+      }
     },
   });
 
