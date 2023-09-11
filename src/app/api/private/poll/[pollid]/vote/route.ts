@@ -16,7 +16,7 @@ export async function POST(
   { params }: { params: { pollid: string } }
 ) {
   const { pollid } = params;
-  const { pollOptionId } = await request.json();
+  const { pollOptionId }: { pollOptionId: string } = await request.json();
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -25,6 +25,31 @@ export async function POST(
 
   try {
     // TODO: add validation to see if user has already voted on this poll
+
+    const pollOption = await prisma.votes.findFirst({
+      where: {
+        userId: session.user.id!,
+        pollOptionId: pollOptionId,
+      },
+    });
+
+    if (pollOption) {
+      const poll = await prisma.poll.findUnique({
+        where: {
+          id: pollid,
+        },
+        include: {
+          pollOptions: {
+            include: {
+              votes: true,
+            },
+          },
+        },
+      });
+
+      return NextResponse.json(poll);
+    }
+
     const poll = await prisma.poll.update({
       where: {
         id: pollid,

@@ -28,6 +28,7 @@ export default function PollData({ initialPoll }: Props) {
       if (error instanceof AxiosError) {
         toast(error.response?.data);
       }
+      toast("Something went wrong, please try again later");
     },
   });
 
