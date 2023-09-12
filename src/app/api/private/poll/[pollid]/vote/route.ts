@@ -24,39 +24,25 @@ export async function POST(
   }
 
   try {
-    // TODO: add validation to see if user has already voted on this poll
-
-    const pollOption = await prisma.votes.findFirst({
+    // check if the user has already voted in this poll
+    const existingVote = await prisma.votes.findMany({
       where: {
         userId: session.user.id!,
-        pollOptionId: pollOptionId,
+        pollId: pollid,
       },
     });
 
-    if (pollOption) {
-      const poll = await prisma.poll.findUnique({
+    // if a user has voted in the poll, delete it
+    if (existingVote) {
+      await prisma.votes.deleteMany({
         where: {
-          id: pollid,
-        },
-        include: {
-          pollOptions: {
-            include: {
-              votes: true,
-            },
-          },
+          userId: session.user.id!,
+          pollId: pollid,
         },
       });
-
-      return NextResponse.json(poll);
     }
 
-    // delete previous votes
-    await prisma.votes.deleteMany({
-      where: {
-        userId: session.user.id!,
-      },
-    });
-
+    // add a new vote for this user on this poll
     const poll = await prisma.poll.update({
       where: {
         id: pollid,
@@ -69,7 +55,7 @@ export async function POST(
             },
             data: {
               votes: {
-                create: [{ userId: session.user.id! }],
+                create: [{ userId: session.user.id!, pollId: pollid }],
               },
             },
           },

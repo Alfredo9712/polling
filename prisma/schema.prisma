@@ -56,6 +56,7 @@ model Poll {
   author      User          @relation(fields: [userId], references: [id])
   userId      String
   pollOptions PollOptions[]
+  votes       Votes[]
 }
 
 model PollOptions {
@@ -67,12 +68,16 @@ model PollOptions {
 }
 
 model Votes {
-  id           String      @id @default(cuid())
+  id           Int         @id @default(autoincrement())
   voterId      User        @relation(fields: [userId], references: [id])
   option       PollOptions @relation(fields: [pollOptionId], references: [id])
   pollOptionId String
   createdAt    DateTime    @default(now())
   userId       String
+  Poll         Poll?       @relation(fields: [pollId], references: [id])
+  pollId       String?
+
+  @@unique([userId, pollOptionId])
 }
 
 model VerificationToken {

@@ -21,6 +21,7 @@ export default function PollData({ initialPoll }: Props) {
     queryFn: () => fetchPoll(initialPoll?.id),
     initialData: initialPoll,
   });
+  console.log(poll);
   const pollMutation = useMutation({
     mutationFn: (pollOptionId: string) =>
       handleVoteMutation(pollOptionId, initialPoll?.id),
