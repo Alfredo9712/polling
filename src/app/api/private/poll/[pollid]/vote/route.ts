@@ -42,7 +42,7 @@ export async function POST(
       });
     }
 
-    // add a new vote for this user on this poll
+    // add a vote to the poll option
     const poll = await prisma.poll.update({
       where: {
         id: pollid,
