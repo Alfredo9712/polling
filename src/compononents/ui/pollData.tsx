@@ -8,6 +8,7 @@ import Pusher from "pusher-js";
 import type { PusherEvent } from "../../../types/pusher-events/PusherEvent";
 import { toast } from "react-hot-toast";
 import { AxiosError } from "axios";
+import BarChart from "./barChart";
 
 interface Props {
   initialPoll: PollType;
@@ -60,14 +61,19 @@ export default function PollData({ initialPoll }: Props) {
   };
 
   return (
-    <div className="mt-14 grid grid-cols-3 gap-10 gap-y-48">
-      {pollOptions?.map((pollOption) => (
-        <PollOption
-          key={pollOption.id}
-          pollOption={pollOption}
-          handleVote={handleVoteClick}
-        />
-      ))}
+    <div>
+      <div className="h-[500px]">
+        <BarChart />
+      </div>
+      <div className="mt-14 grid grid-cols-3 gap-10 gap-y-48">
+        {pollOptions?.map((pollOption) => (
+          <PollOption
+            key={pollOption.id}
+            pollOption={pollOption}
+            handleVote={handleVoteClick}
+          />
+        ))}
+      </div>
     </div>
   );
 }
