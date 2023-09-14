@@ -54,16 +54,21 @@ export default function PollData({ initialPoll }: Props) {
 
   if (!poll) return <h1>No poll data</h1>;
 
-  const { pollOptions } = poll;
-
+  const { pollOptions, title } = poll;
+  const keys = pollOptions.map((pollOption) => pollOption.text);
   const handleVoteClick = async (pollOptionId: string) => {
     pollMutation.mutate(pollOptionId);
   };
 
+  const data = pollOptions.map((pollOption) => ({
+    id: pollOption.text,
+    votes: pollOption.votes.length,
+  }));
+
   return (
     <div>
-      <div className="h-[500px]">
-        <BarChart />
+      <div className="h-[600px]">
+        <BarChart title={title} keys={keys} data={data} />
       </div>
       <div className="mt-14 grid grid-cols-3 gap-10 gap-y-48">
         {pollOptions?.map((pollOption) => (

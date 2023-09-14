@@ -27,7 +27,7 @@ export default function RootLayout({
       <NextAuthProvider>
         <ReactQueryProvider>
           <body className={`${siteFont.className} bg-gray-50 h-full px-10 `}>
-            <div className="h-screen max-w-screen-xl mx-auto">
+            <div className="h-screen max-w-screen-2xl mx-auto">
               <Navbar />
               {children}
             </div>
