@@ -8,24 +8,32 @@ type BarChartProps = {
 };
 
 export default function BarChart({ title, data, keys }: BarChartProps) {
-  console.log("title", title);
-  console.log("data", data);
-  console.log("keys", keys);
   return (
     <ResponsiveBar
       data={data}
       keys={["votes"]}
       indexBy="id"
-      margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+      margin={{ top: 50, right: 150, bottom: 50, left: 150 }}
       padding={0.3}
-      //   layout="horizontal"
+      layout="horizontal"
       groupMode="grouped"
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
       colors={["#1E1E1E", "#232323", "#2C2C2C", "#333", "#363636", "#383838"]}
       axisTop={null}
       axisRight={null}
-      axisLeft={{ tickSize: 0 }}
+      axisLeft={{
+        format: (v) => {
+          console.log(v.slice(0, 6));
+          return v;
+        },
+        tickSize: 5,
+        tickPadding: 5,
+        tickRotation: 0,
+        legend: "",
+        legendPosition: "middle",
+        legendOffset: -40,
+      }}
       //   axisBottom={{
       //     tickSize: 5,
       //     tickPadding: 5,

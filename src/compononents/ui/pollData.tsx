@@ -67,7 +67,7 @@ export default function PollData({ initialPoll }: Props) {
 
   return (
     <div>
-      <div className="h-[600px]">
+      <div className="h-[600px] w-full">
         <BarChart title={title} keys={keys} data={data} />
       </div>
       <div className="mt-14 grid grid-cols-3 gap-10 gap-y-48">
