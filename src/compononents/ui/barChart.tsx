@@ -24,7 +24,6 @@ export default function BarChart({ title, data, keys }: BarChartProps) {
       axisRight={null}
       axisLeft={{
         format: (v) => {
-          console.log(v.slice(0, 6));
           return v;
         },
         tickSize: 5,

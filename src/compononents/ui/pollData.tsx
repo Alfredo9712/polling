@@ -22,7 +22,7 @@ export default function PollData({ initialPoll }: Props) {
     queryFn: () => fetchPoll(initialPoll?.id),
     initialData: initialPoll,
   });
-  console.log(poll);
+
   const pollMutation = useMutation({
     mutationFn: (pollOptionId: string) =>
       handleVoteMutation(pollOptionId, initialPoll?.id),
@@ -68,7 +68,7 @@ export default function PollData({ initialPoll }: Props) {
   return (
     <div>
       <div className="h-[600px] w-full">
-        <BarChart title={title} keys={keys} data={data} />
+        <BarChart title={title} keys={keys} data={data.reverse()} />
       </div>
       <div className="mt-14 grid grid-cols-3 gap-10 gap-y-48">
         {pollOptions?.map((pollOption) => (
