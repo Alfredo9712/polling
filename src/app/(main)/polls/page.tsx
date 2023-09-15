@@ -5,7 +5,11 @@ import { Plus } from "lucide-react";
 
 export default async function PollsPage() {
   //TODO: replace tshis with polls
-  const polls = await prisma.poll.findMany();
+  const polls = await prisma.poll.findMany({
+    include: {
+      votes: true,
+    },
+  });
 
   return (
     <div className="mx-auto ">
@@ -19,13 +23,22 @@ export default async function PollsPage() {
           Add poll
         </Link>
       </div>
-      <div>
-        {polls.map(({ title, description, id, userId }) => (
-          <div key={id} className="border rounded p-4">
-            <p>{title}</p>
-            <Link href={`/polls/${id}`}>Visit poll</Link>
-          </div>
-        ))}
+      <div className="flex flex-col gap-5">
+        {polls.map(({ title, description, id, userId, votes }) => {
+          const totalVotes = votes.length;
+          return (
+            <div
+              key={id}
+              className="border rounded p-4 flex flex-col gap-2 max-w-screen-sm"
+            >
+              <h2 className="text-lg">{title}</h2>
+              <p className="text-sm text-slate-500">Total votes:{totalVotes}</p>
+              <Link href={`/polls/${id}`} className="underline">
+                Visit poll
+              </Link>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
