@@ -4,17 +4,7 @@ export type PollType =
         name: string | null;
         image: string | null;
       };
-      pollOptions: ({
-        votes: {
-          id: string;
-          pollOptionId: string;
-          createdAt: Date;
-        }[];
-      } & {
-        id: string;
-        text: string;
-        pollId: string;
-      })[];
+      pollOptions: PollOptionType[];
     } & {
       id: string;
       title: string;
@@ -28,6 +18,8 @@ export type PollOptionType = {
     id: string;
     pollOptionId: string;
     createdAt: Date;
+    userId: string;
+    pollId: string;
   }[];
 } & {
   id: string;
