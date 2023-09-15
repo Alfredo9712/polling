@@ -15,11 +15,11 @@ export type PollType =
 
 export type PollOptionType = {
   votes: {
-    id: string;
+    id: number;
     pollOptionId: string;
     createdAt: Date;
     userId: string;
-    pollId: string;
+    pollId: string | null;
   }[];
 } & {
   id: string;

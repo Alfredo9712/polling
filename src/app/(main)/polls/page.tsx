@@ -20,11 +20,11 @@ export default async function PollsPage() {
           className="bg-slate-900 text-slate-50 hover:bg-slate-900/90 dark:bg-slate-50 dark:text-slate-900 dark:hover:bg-slate-50/90 rounded-md flex py-2 px-3 items-center gap-1"
         >
           <Plus size={20} />
-          Add poll
+          Create poll
         </Link>
       </div>
       <div className="flex flex-col gap-5">
-        {polls.map(({ title, description, id, userId, votes }) => {
+        {polls.map(({ title, id, votes }) => {
           const totalVotes = votes.length;
           return (
             <div
