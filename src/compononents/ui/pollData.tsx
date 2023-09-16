@@ -66,12 +66,12 @@ export default function PollData({ initialPoll }: Props) {
   }));
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <div className="h-[600px] w-full">
         <BarChart title={title} keys={keys} data={data.reverse()} />
       </div>
-      <div className="mt-14 grid grid-cols-3 gap-10 gap-y-48">
-        {pollOptions?.map((pollOption) => (
+      <div className="mt-14 grid grid-cols-1 max-w-7xl w-full gap-2   justify-between sm:grid-cols-2 ">
+        {pollOptions.map((pollOption) => (
           <PollOption
             key={pollOption.id}
             pollOption={pollOption}
