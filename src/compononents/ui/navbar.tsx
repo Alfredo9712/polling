@@ -10,13 +10,13 @@ export default async function Navbar() {
   return (
     <div className="h-[75px] w-full font-medium flex items-center text-2xl justify-between">
       <div>
-        <a
+        <Link
           href={`${session ? "/polls" : "/"}`}
           className="flex items-center gap-2"
         >
           polling
           <BarChartBigIcon />
-        </a>
+        </Link>
       </div>
       {session ? (
         <ul>
