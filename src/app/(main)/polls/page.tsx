@@ -32,7 +32,9 @@ export default async function PollsPage() {
               className="border rounded p-4 flex flex-col gap-2 max-w-screen-sm"
             >
               <h2 className="text-lg">{title}</h2>
-              <p className="text-sm text-slate-500">Total votes:{totalVotes}</p>
+              <p className="text-sm text-slate-500">
+                Total {totalVotes === 1 ? "vote" : "votes"}: {`${totalVotes}`}
+              </p>
               <Link href={`/polls/${id}`} className="underline">
                 Visit poll
               </Link>
