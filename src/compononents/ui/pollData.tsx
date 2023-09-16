@@ -71,7 +71,7 @@ export default function PollData({ initialPoll }: Props) {
         <BarChart title={title} keys={keys} data={data.reverse()} />
       </div>
 
-      <div className="  pt-10 grid grid-cols-1 w-full gap-2 justify-between sm:grid-cols-2 ">
+      <div className="pt-10 grid grid-cols-1 w-full gap-2 gap-x-4  justify-between sm:grid-cols-2 ">
         {pollOptions.map((pollOption) => (
           <PollOption
             key={pollOption.id}
