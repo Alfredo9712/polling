@@ -1,8 +1,7 @@
 import { PollOptionType } from "@/lib/types";
-import { Button } from "./button";
+import { CheckCircle2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { cn } from "@/utils";
-import { CheckCheckIcon, CheckCircle, CheckCircle2Icon } from "lucide-react";
 
 interface Props {
   pollOption: PollOptionType;
