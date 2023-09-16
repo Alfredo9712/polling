@@ -18,23 +18,24 @@ export default function PollOption({ pollOption, handleVote }: Props) {
   );
 
   return (
-    <div
+    <button
       className={cn(
-        "border border-slate-800 rounded flex justify-between p-2 cursor-pointer ",
+        "border border-slate-800 rounded flex justify-between p-2",
         {
           "border-green-800": isPollOptionUsersVote,
         }
       )}
+      disabled={isPollOptionUsersVote}
       onClick={() => handleVote(id)}
     >
-      <div>
+      <span>
         <h1>{text}</h1>
-        <p>
+        <p className="text-left">
           {`${votesCount} `}
           {votesCount === 1 ? "vote" : "votes"}
         </p>
-      </div>
+      </span>
       {isPollOptionUsersVote && <CheckCircle2Icon size={30} color="green" />}
-    </div>
+    </button>
   );
 }
