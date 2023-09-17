@@ -20,4 +20,4 @@ Polling is a real-time polling application that allows users to create, particip
 - **Prisma**
 - **SQLite**
 - **React Query**
-- **Tensorflow (Toxicity model)**
+- **Tensorflow.js (toxicity model)**
