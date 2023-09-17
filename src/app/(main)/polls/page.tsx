@@ -2,9 +2,9 @@ import prisma from "../../../../prisma/prismaClient";
 import Link from "next/link";
 
 import { Plus } from "lucide-react";
+import Polls from "@/compononents/ui/polls";
 
 export default async function PollsPage() {
-  //TODO: replace tshis with polls
   const polls = await prisma.poll.findMany({
     include: {
       votes: true,
@@ -23,25 +23,7 @@ export default async function PollsPage() {
           Create poll
         </Link>
       </div>
-      <div className="flex flex-col gap-5">
-        {polls.map(({ title, id, votes }) => {
-          const totalVotes = votes.length;
-          return (
-            <div
-              key={id}
-              className="border rounded p-4 flex flex-col gap-2 max-w-screen-sm"
-            >
-              <h2 className="text-lg">{title}</h2>
-              <p className="text-sm text-slate-500">
-                Total {totalVotes === 1 ? "vote" : "votes"}: {`${totalVotes}`}
-              </p>
-              <Link href={`/polls/${id}`} className="underline">
-                Visit poll
-              </Link>
-            </div>
-          );
-        })}
-      </div>
+      <Polls initialPolls={polls} />
     </div>
   );
 }

@@ -26,3 +26,18 @@ export type PollOptionType = {
   text: string;
   pollId: string;
 };
+
+export type PollsReturnType = ({
+  votes: {
+    id: number;
+    pollOptionId: string;
+    createdAt: Date;
+    userId: string;
+    pollId: string | null;
+  }[];
+} & {
+  id: string;
+  title: string;
+  description: string | null;
+  userId: string;
+})[];

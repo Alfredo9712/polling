@@ -1,4 +1,4 @@
-import { PollType } from "@/lib/types";
+import { PollType, PollsReturnType } from "@/lib/types";
 import axios, { AxiosError } from "axios";
 
 export const fetchUsers = async () => {
@@ -12,6 +12,12 @@ export const fetchPoll = async (pollId: string | undefined) => {
   );
 
   return response.data as PollType;
+};
+
+export const fetchPolls = async () => {
+  const response = await axios.get(`http://localhost:3000/api/private/polls`);
+
+  return response.data as PollsReturnType;
 };
 
 export const handleVoteMutation = async (
