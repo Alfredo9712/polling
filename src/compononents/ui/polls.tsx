@@ -15,7 +15,7 @@ export default function Polls({ initialPolls }: Props) {
     queryFn: fetchPolls,
     initialData: initialPolls,
   });
-  console.log(polls);
+
   if (!polls) return <h1>No Public Polls available</h1>;
 
   return (
