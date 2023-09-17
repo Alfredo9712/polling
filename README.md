@@ -10,6 +10,7 @@ Polling is a real-time polling application that allows users to create, particip
 - **User-Friendly Interface**
 - **Instant Analytics**
 - **Privacy and Security**
+- **Text Toxicity Detection**
 
 ## Technologies Used
 
@@ -19,3 +20,4 @@ Polling is a real-time polling application that allows users to create, particip
 - **Prisma**
 - **SQLite**
 - **React Query**
+- **Tensorflow (Toxicity model)**
