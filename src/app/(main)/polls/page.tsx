@@ -1,7 +1,7 @@
+import { Plus } from "lucide-react";
 import prisma from "../../../../prisma/prismaClient";
 import Link from "next/link";
 
-import { Plus } from "lucide-react";
 import Polls from "@/compononents/ui/polls";
 
 export default async function PollsPage() {

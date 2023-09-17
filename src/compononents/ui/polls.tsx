@@ -2,7 +2,6 @@
 
 import { PollsReturnType } from "@/lib/types";
 import { fetchPolls } from "@/utils/apis";
-
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 
@@ -21,14 +20,14 @@ export default function Polls({ initialPolls }: Props) {
 
   return (
     <div className="flex flex-col gap-5">
-      {polls?.map(({ title, votes, description, id }) => {
+      {polls?.map(({ title, votes, id }) => {
         const totalVotes = votes.length;
         return (
           <div
             key={id}
             className="border rounded p-4 flex flex-col gap-2 max-w-screen-sm"
           >
-            <h2 className="text-lg">{title}</h2>
+            <h2 className="text-lg">{`${title}`}</h2>
             <p className="text-sm text-slate-500">
               Total {totalVotes === 1 ? "vote" : "votes"}: {`${totalVotes}`}
             </p>
