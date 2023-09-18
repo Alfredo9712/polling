@@ -20,7 +20,7 @@ export default async function PollsPage() {
           className="bg-slate-900 text-slate-50 hover:bg-slate-900/90 dark:bg-slate-50 dark:text-slate-900 dark:hover:bg-slate-50/90 rounded-md flex py-2 px-3 items-center gap-1"
         >
           <Plus size={20} />
-          Create poll
+          Create Poll
         </Link>
       </div>
       <Polls initialPolls={polls} />
