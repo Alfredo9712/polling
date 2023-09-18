@@ -5,6 +5,7 @@ import * as toxicity from "@tensorflow-models/toxicity";
 import { Button } from "./button";
 import { Input } from "./input";
 import { Label } from "./label";
+import { cn } from "@/utils";
 
 export default function PollForm() {
   const formik = useFormik({
@@ -47,6 +48,12 @@ export default function PollForm() {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values.firstName}
+        className={cn(
+          "mt-1",
+          formik.touched.firstName &&
+            formik.errors.firstName &&
+            "border-red-500"
+        )}
       />
       {formik.touched.firstName && formik.errors.firstName ? (
         <div>{formik.errors.firstName}</div>
@@ -60,6 +67,10 @@ export default function PollForm() {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values.lastName}
+        className={cn(
+          "mt-1",
+          formik.touched.lastName && formik.errors.lastName && "border-red-500"
+        )}
       />
       {formik.touched.lastName && formik.errors.lastName ? (
         <div>{formik.errors.lastName}</div>
@@ -73,6 +84,10 @@ export default function PollForm() {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values.email}
+        className={cn(
+          "mt-1",
+          formik.touched.email && formik.errors.email && "border-red-500"
+        )}
       />
       {formik.touched.email && formik.errors.email ? (
         <div>{formik.errors.email}</div>
