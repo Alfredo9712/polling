@@ -6,15 +6,19 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { Label } from "./label";
 import { cn } from "@/utils";
+import { DeleteIcon } from "lucide-react";
 
 const PollSchema = Yup.object().shape({
   title: Yup.string().required("title is required"),
   description: Yup.string().required("description is required"),
-  pollOptions: Yup.array().of(
-    Yup.object().shape({
-      text: Yup.number().required(),
-    })
-  ),
+  pollOptions: Yup.array()
+    .of(
+      Yup.object().shape({
+        text: Yup.string().required(),
+      })
+    )
+    .min(2, "Minimum of 2 poll options")
+    .max(10, "Maximum of 6 poll options"),
 });
 
 export default function PollForm() {
@@ -25,12 +29,20 @@ export default function PollForm() {
         description: "",
         pollOptions: [],
       }}
+      validateOnMount
       validationSchema={PollSchema}
       onSubmit={async (values) => {
         console.log(values);
       }}
-      render={({ values, handleChange, handleBlur, errors, touched }) => {
-        console.log(values);
+      render={({
+        values,
+        handleChange,
+        handleBlur,
+        errors,
+        touched,
+        isValid,
+      }) => {
+        console.log(isValid);
         return (
           <Form>
             <div>
@@ -76,29 +88,24 @@ export default function PollForm() {
                     type="button"
                     onClick={() => arrayHelpers.push({ text: "" })}
                   >
-                    {/* show this when user has removed all friends from the list */}
                     Add Poll Option
                   </button>
                   {values.pollOptions.map((poll, index) => (
-                    <div key={index}>
-                      <Field name={`pollOptions.${index}.text`} />
+                    <div key={index} className="flex gap-2">
+                      <Field name={`pollOptions.${index}.text`} as={Input} />
                       <button
                         type="button"
-                        onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                        onClick={() => arrayHelpers.remove(index)}
                       >
-                        -
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => arrayHelpers.insert(index, { text: "" })} // insert an empty string at a position
-                      >
-                        +
+                        <DeleteIcon />
                       </button>
                     </div>
                   ))}
 
                   <div>
-                    <button type="submit">Submit</button>
+                    <Button type="submit" disabled={!isValid}>
+                      Submit
+                    </Button>
                   </div>
                 </div>
               )}
