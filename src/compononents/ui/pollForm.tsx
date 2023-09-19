@@ -1,5 +1,5 @@
 "use client";
-import { useFormik } from "formik";
+import { Field, FieldArray, Form, Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import * as toxicity from "@tensorflow-models/toxicity";
 import { Button } from "./button";
@@ -7,93 +7,105 @@ import { Input } from "./input";
 import { Label } from "./label";
 import { cn } from "@/utils";
 
+const PollSchema = Yup.object().shape({
+  title: Yup.string().required("title is required"),
+  description: Yup.string().required("description is required"),
+  pollOptions: Yup.array().of(
+    Yup.object().shape({
+      text: Yup.number().required(),
+    })
+  ),
+});
+
 export default function PollForm() {
-  const formik = useFormik({
-    initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-    },
-    validationSchema: Yup.object({
-      firstName: Yup.string()
-        .max(15, "Must be 15 characters or less")
-        .required("Required"),
-      lastName: Yup.string()
-        .max(20, "Must be 20 characters or less")
-        .required("Required"),
-      email: Yup.string().email("Invalid email address").required("Required"),
-    }),
-    onSubmit: async (values) => {
-      const text = "test";
-      const testToxicitySentences = [text];
-
-      const threshold = 0.9;
-
-      const model = await toxicity.load(threshold, ["insult", "toxicity"]);
-
-      const predictions = await model.classify(testToxicitySentences);
-      const isInnappropriate = !!predictions.find((label) =>
-        label.results.find((result) => result.match === true)
-      );
-    },
-  });
-
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <Label htmlFor="firstName">First Name</Label>
-      <Input
-        id="firstName"
-        name="firstName"
-        type="text"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.firstName}
-        className={cn(
-          "mt-1",
-          formik.touched.firstName &&
-            formik.errors.firstName &&
-            "border-red-500"
-        )}
-      />
-      {formik.touched.firstName && formik.errors.firstName ? (
-        <div>{formik.errors.firstName}</div>
-      ) : null}
+    <Formik
+      initialValues={{
+        title: "",
+        description: "",
+        pollOptions: [],
+      }}
+      validationSchema={PollSchema}
+      onSubmit={async (values) => {
+        console.log(values);
+      }}
+      render={({ values, handleChange, handleBlur, errors, touched }) => {
+        console.log(values);
+        return (
+          <Form>
+            <div>
+              <Label htmlFor="title">Title</Label>
+              <Input
+                id="title"
+                name="title"
+                type="text"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.title}
+                className={cn(
+                  "mt-1",
+                  touched.title && errors.title && "border-red-500"
+                )}
+              />
+              {touched.title && errors.title ? <div>{errors.title}</div> : null}
+            </div>
+            <div>
+              <Label htmlFor="description">Description</Label>
+              <Input
+                id="description"
+                name="description"
+                type="text"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.description}
+                className={cn(
+                  "mt-1",
+                  touched.description && errors.description && "border-red-500"
+                )}
+              />
+              {touched.description && errors.description ? (
+                <div>{errors.description}</div>
+              ) : null}
+            </div>
 
-      <Label htmlFor="lastName">Last Name</Label>
-      <Input
-        id="lastName"
-        name="lastName"
-        type="text"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.lastName}
-        className={cn(
-          "mt-1",
-          formik.touched.lastName && formik.errors.lastName && "border-red-500"
-        )}
-      />
-      {formik.touched.lastName && formik.errors.lastName ? (
-        <div>{formik.errors.lastName}</div>
-      ) : null}
+            <FieldArray
+              name="pollOptions"
+              render={(arrayHelpers) => (
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => arrayHelpers.push({ text: "" })}
+                  >
+                    {/* show this when user has removed all friends from the list */}
+                    Add Poll Option
+                  </button>
+                  {values.pollOptions.map((poll, index) => (
+                    <div key={index}>
+                      <Field name={`pollOptions.${index}.text`} />
+                      <button
+                        type="button"
+                        onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                      >
+                        -
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => arrayHelpers.insert(index, { text: "" })} // insert an empty string at a position
+                      >
+                        +
+                      </button>
+                    </div>
+                  ))}
 
-      <Label htmlFor="email">Email Address</Label>
-      <Input
-        id="email"
-        name="email"
-        type="email"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.email}
-        className={cn(
-          "mt-1",
-          formik.touched.email && formik.errors.email && "border-red-500"
-        )}
-      />
-      {formik.touched.email && formik.errors.email ? (
-        <div>{formik.errors.email}</div>
-      ) : null}
-
-      <Button type="submit">Submit</Button>
-    </form>
+                  <div>
+                    <button type="submit">Submit</button>
+                  </div>
+                </div>
+              )}
+            />
+          </Form>
+        );
+      }}
+    />
   );
 }
