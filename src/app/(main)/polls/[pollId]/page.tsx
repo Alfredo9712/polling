@@ -1,6 +1,8 @@
 import prisma from "../../../../../prisma/prismaClient";
 import Avatar from "@/compononents/ui/avatar";
 import PollData from "@/compononents/ui/pollData";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 interface Poll {
   params: {
@@ -38,6 +40,9 @@ export default async function Poll({ params }: Poll) {
   const { image, name } = author;
   return (
     <div>
+      <Link href="/polls" className="flex gap-1 pb-5 w-fit">
+        <ArrowLeft /> Back
+      </Link>
       <div>
         <h1 className="text-3xl mb-4">{title}</h1>
         <div className="flex items-center gap-2 text-slate-600 mb-3">
