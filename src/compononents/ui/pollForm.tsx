@@ -32,7 +32,18 @@ export default function PollForm() {
       validateOnMount
       validationSchema={PollSchema}
       onSubmit={async (values) => {
-        console.log(values);
+        const { pollOptions, title, description } = values;
+        const titleAndDescription = [title, description];
+        console.log(titleAndDescription);
+        const threshold = 0.9;
+
+        const model = await toxicity.load(threshold, ["insult", "toxicity"]);
+
+        const predictions = await model.classify(titleAndDescription);
+        const isInnappropriate = !!predictions.find((label) =>
+          label.results.find((result) => result.match === true)
+        );
+        console.log(isInnappropriate);
       }}
       render={({
         values,
@@ -42,9 +53,8 @@ export default function PollForm() {
         touched,
         isValid,
       }) => {
-        console.log(isValid);
         return (
-          <Form>
+          <Form className="flex flex-col gap-5">
             <div>
               <Label htmlFor="title">Title</Label>
               <Input
@@ -101,15 +111,14 @@ export default function PollForm() {
                       </button>
                     </div>
                   ))}
-
-                  <div>
-                    <Button type="submit" disabled={!isValid}>
-                      Submit
-                    </Button>
-                  </div>
                 </div>
               )}
             />
+            <div>
+              <Button type="submit" disabled={!isValid}>
+                Submit
+              </Button>
+            </div>
           </Form>
         );
       }}
