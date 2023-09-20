@@ -6,11 +6,11 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { Label } from "./label";
 import { cn } from "@/utils";
-import { DeleteIcon } from "lucide-react";
+import { Trash } from "lucide-react";
 
 const PollSchema = Yup.object().shape({
-  title: Yup.string().required("title is required"),
-  description: Yup.string().required("description is required"),
+  title: Yup.string().required("Title is required"),
+  description: Yup.string().required("Description is required"),
   pollOptions: Yup.array()
     .of(
       Yup.object().shape({
@@ -54,7 +54,7 @@ export default function PollForm() {
         isValid,
       }) => {
         return (
-          <Form className="flex flex-col gap-5">
+          <Form className="flex flex-col gap-5 max-w-lg">
             <div>
               <Label htmlFor="title">Title</Label>
               <Input
@@ -69,7 +69,9 @@ export default function PollForm() {
                   touched.title && errors.title && "border-red-500"
                 )}
               />
-              {touched.title && errors.title ? <div>{errors.title}</div> : null}
+              {touched.title && errors.title ? (
+                <div className="text-sm text-slate-500">{errors.title}</div>
+              ) : null}
             </div>
             <div>
               <Label htmlFor="description">Description</Label>
@@ -86,31 +88,35 @@ export default function PollForm() {
                 )}
               />
               {touched.description && errors.description ? (
-                <div>{errors.description}</div>
+                <div className="text-sm text-slate-500">
+                  {errors.description}
+                </div>
               ) : null}
             </div>
-
             <FieldArray
               name="pollOptions"
               render={(arrayHelpers) => (
-                <div>
+                <div className="flex flex-col gap-3 items-start s">
+                  <div className="flex flex-col gap-2">
+                    {values.pollOptions.map((poll, index) => (
+                      <div key={index} className="flex gap-2">
+                        <Field name={`pollOptions.${index}.text`} as={Input} />
+                        <button
+                          type="button"
+                          onClick={() => arrayHelpers.remove(index)}
+                        >
+                          <Trash />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                   <button
                     type="button"
+                    className=""
                     onClick={() => arrayHelpers.push({ text: "" })}
                   >
                     Add Poll Option
                   </button>
-                  {values.pollOptions.map((poll, index) => (
-                    <div key={index} className="flex gap-2">
-                      <Field name={`pollOptions.${index}.text`} as={Input} />
-                      <button
-                        type="button"
-                        onClick={() => arrayHelpers.remove(index)}
-                      >
-                        <DeleteIcon />
-                      </button>
-                    </div>
-                  ))}
                 </div>
               )}
             />
