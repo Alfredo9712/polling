@@ -68,7 +68,7 @@ export default function PollForm() {
           return;
         }
         pollMutation.mutate({ title, description, pollOptions });
-        // resetForm();
+        resetForm();
       }}
       render={({
         values,
