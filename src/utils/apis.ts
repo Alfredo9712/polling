@@ -28,3 +28,19 @@ export const handleVoteMutation = async (
     pollOptionId,
   });
 };
+
+export const createPoll = async ({
+  title,
+  description,
+  pollOptions,
+}: {
+  title: string;
+  description: string;
+  pollOptions: { title: string }[];
+}) => {
+  await axios.post(`/api/private/poll/create`, {
+    title,
+    description,
+    pollOptions,
+  });
+};

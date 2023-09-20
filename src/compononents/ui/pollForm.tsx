@@ -7,6 +7,10 @@ import { Input } from "./input";
 import { Label } from "./label";
 import { cn } from "@/utils";
 import { Trash } from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createPoll } from "@/utils/apis";
+import { AxiosError } from "axios";
+import { toast } from "react-hot-toast";
 
 const PollSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
@@ -22,6 +26,22 @@ const PollSchema = Yup.object().shape({
 });
 
 export default function PollForm() {
+  const queryClient = useQueryClient();
+
+  const pollMutation = useMutation({
+    mutationFn: createPoll,
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast(error.response?.data);
+      }
+      toast("Something went wrong, please try again later");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["polls"] });
+      toast("Poll created successfully");
+    },
+  });
+
   return (
     <Formik
       initialValues={{
@@ -31,7 +51,7 @@ export default function PollForm() {
       }}
       validateOnMount
       validationSchema={PollSchema}
-      onSubmit={async (values) => {
+      onSubmit={async (values, { resetForm }) => {
         const { pollOptions, title, description } = values;
         const titleAndDescription = [title, description];
         console.log(titleAndDescription);
@@ -43,7 +63,12 @@ export default function PollForm() {
         const isInnappropriate = !!predictions.find((label) =>
           label.results.find((result) => result.match === true)
         );
-        console.log(isInnappropriate);
+        if (isInnappropriate) {
+          toast("Cannot create poll with innappropriate content");
+          return;
+        }
+        pollMutation.mutate({ title, description, pollOptions });
+        // resetForm();
       }}
       render={({
         values,
@@ -70,7 +95,9 @@ export default function PollForm() {
                 )}
               />
               {touched.title && errors.title ? (
-                <div className="text-sm text-slate-500">{errors.title}</div>
+                <div className="text-sm text-slate-500 pt-1">
+                  {errors.title}
+                </div>
               ) : null}
             </div>
             <div>
@@ -88,7 +115,7 @@ export default function PollForm() {
                 )}
               />
               {touched.description && errors.description ? (
-                <div className="text-sm text-slate-500">
+                <div className="text-sm text-slate-500 pt-1">
                   {errors.description}
                 </div>
               ) : null}
