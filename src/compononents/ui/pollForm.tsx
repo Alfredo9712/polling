@@ -7,7 +7,7 @@ import { Input } from "./input";
 import { Label } from "./label";
 import { cn } from "@/utils";
 import { Trash } from "lucide-react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createPoll } from "@/utils/apis";
 import { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
