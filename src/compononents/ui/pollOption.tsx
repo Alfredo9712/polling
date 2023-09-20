@@ -27,9 +27,9 @@ export default function PollOption({ pollOption, handleVote }: Props) {
       disabled={isPollOptionUsersVote}
       onClick={() => handleVote(id)}
     >
-      <span>
+      <span className="text-left">
         <h1>{text}</h1>
-        <p className="text-left">
+        <p>
           {`${votesCount} `}
           {votesCount === 1 ? "vote" : "votes"}
         </p>
