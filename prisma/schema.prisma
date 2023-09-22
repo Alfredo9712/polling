@@ -57,6 +57,8 @@ model Poll {
   userId      String
   pollOptions PollOptions[]
   votes       Votes[]
+  isClosed    Boolean       @default(false)
+  isPublic    Boolean       @default(false)
 }
 
 model PollOptions {

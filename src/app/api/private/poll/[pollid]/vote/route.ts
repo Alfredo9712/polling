@@ -2,14 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "../../../../../../../prisma/prismaClient";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import Pusher from "pusher";
-
-export const pusherServer = new Pusher({
-  appId: process.env.PUSHER_APP_ID!,
-  key: process.env.PUSHER_KEY!,
-  secret: process.env.PUSHER_SECRET!,
-  cluster: "us3",
-});
+import { pusherServer } from "@/utils/pusher";
 
 export async function POST(
   request: Request,
