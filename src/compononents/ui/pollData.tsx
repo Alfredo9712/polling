@@ -1,6 +1,6 @@
 "use client";
 import { PollType } from "@/lib/types";
-import { fetchPoll, handleVoteMutation } from "@/utils/apis";
+import { closePollMutation, fetchPoll, handleVoteMutation } from "@/utils/apis";
 import React, { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import PollOption from "./pollOption";
@@ -34,6 +34,16 @@ export default function PollData({ initialPoll }: Props) {
     },
   });
 
+  const closePoll = useMutation({
+    mutationFn: closePollMutation,
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast(error.response?.data);
+      }
+      toast("Something went wrong, please try again later");
+    },
+  });
+
   useEffect(() => {
     const pusherClient = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
       cluster: "us3",
@@ -52,6 +62,24 @@ export default function PollData({ initialPoll }: Props) {
     };
   }, []);
 
+  useEffect(() => {
+    const pusherClient = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+      cluster: "us3",
+    });
+
+    const channel = pusherClient.subscribe(`poll`);
+
+    channel.bind("close", (event: PusherEvent) => {
+      const queryKey = [...event.entity, event.id].filter(Boolean);
+      queryClient.invalidateQueries({ queryKey });
+    });
+
+    return () => {
+      channel.unbind("close");
+      pusherClient.unsubscribe(`close`);
+    };
+  }, []);
+
   if (!poll) return <h1>No poll data</h1>;
 
   const { pollOptions, title } = poll;
@@ -65,12 +93,13 @@ export default function PollData({ initialPoll }: Props) {
     votes: pollOption.votes.length,
   }));
 
+  if (poll.isClosed) return <h1>Poll is closed</h1>;
+
   return (
     <div className="flex flex-col items-center justify-between ">
       <div className="h-[45vh] w-full">
         <BarChart title={title} keys={keys} data={data.reverse()} />
       </div>
-
       <div className="pt-10 grid grid-cols-1 w-full gap-2 gap-x-4  justify-between sm:grid-cols-2 ">
         {pollOptions.map((pollOption) => (
           <PollOption
@@ -80,6 +109,9 @@ export default function PollData({ initialPoll }: Props) {
           />
         ))}
       </div>
+      <button onClick={() => closePoll.mutate(initialPoll?.id)}>
+        Close poll
+      </button>
     </div>
   );
 }

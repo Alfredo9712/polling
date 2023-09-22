@@ -29,6 +29,10 @@ export const handleVoteMutation = async (
   });
 };
 
+export const closePollMutation = async (pollId: string | undefined) => {
+  await axios.post(`/api/private/poll/${pollId}/close`);
+};
+
 export const createPoll = async ({
   title,
   description,

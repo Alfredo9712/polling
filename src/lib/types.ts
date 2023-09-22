@@ -10,6 +10,8 @@ export type PollType =
       title: string;
       description: string | null;
       userId: string;
+      isClosed: boolean;
+      isPublic: boolean;
     })
   | null;
 

@@ -37,7 +37,7 @@ export async function POST(
       },
     });
 
-    await pusherServer.trigger(`poll`, "vote", {
+    await pusherServer.trigger(`poll`, "close", {
       entity: ["polls", "detail"],
       id: updatedPoll.id,
     });
