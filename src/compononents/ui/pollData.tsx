@@ -52,6 +52,24 @@ export default function PollData({ initialPoll }: Props) {
     };
   }, []);
 
+  useEffect(() => {
+    const pusherClient = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+      cluster: "us3",
+    });
+
+    const channel = pusherClient.subscribe(`poll`);
+
+    channel.bind("close", (event: PusherEvent) => {
+      const queryKey = [...event.entity, event.id].filter(Boolean);
+      queryClient.invalidateQueries({ queryKey });
+    });
+
+    return () => {
+      channel.unbind("close");
+      pusherClient.unsubscribe(`close`);
+    };
+  }, []);
+
   if (!poll) return <h1>No poll data</h1>;
 
   const { pollOptions, title } = poll;
