@@ -13,7 +13,7 @@ export async function POST(
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const { title, description, pollOptions } = await request.json();
+  const { title, description, pollOptions, isPublic } = await request.json();
 
   try {
     const updatedUser = await prisma.user.update({
@@ -25,6 +25,7 @@ export async function POST(
           create: {
             title,
             description,
+            isPublic,
             pollOptions: {
               create: pollOptions,
             },

@@ -37,14 +37,17 @@ export const createPoll = async ({
   title,
   description,
   pollOptions,
+  isPublic,
 }: {
   title: string;
   description: string;
   pollOptions: { title: string }[];
+  isPublic: boolean;
 }) => {
   await axios.post(`/api/private/poll/create`, {
     title,
     description,
     pollOptions,
+    isPublic,
   });
 };
