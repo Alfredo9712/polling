@@ -3,7 +3,6 @@ import { BarChartBigIcon } from "lucide-react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
 import Avatar from "./avatar";
-import prisma from "../../../prisma/prismaClient";
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions);

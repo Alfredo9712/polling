@@ -30,6 +30,7 @@ export default async function PollsAddPage() {
       <Link href="/polls" className="flex gap-1 pb-5 w-fit">
         <ArrowLeft /> Back
       </Link>
+      <h1 className="text-2xl pb-2">My Polls</h1>
       <div className="flex flex-col gap-5">
         {polls.length === 0 ? (
           <h1 className="text-2xl pb-2">

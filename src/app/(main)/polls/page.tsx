@@ -8,6 +8,7 @@ export default async function PollsPage() {
   const polls = await prisma.poll.findMany({
     where: {
       isPublic: true,
+      isClosed: false,
     },
     include: {
       votes: true,
