@@ -6,6 +6,9 @@ import Polls from "@/compononents/ui/polls";
 
 export default async function PollsPage() {
   const polls = await prisma.poll.findMany({
+    where: {
+      isPublic: true,
+    },
     include: {
       votes: true,
     },

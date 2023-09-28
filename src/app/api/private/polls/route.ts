@@ -14,6 +14,9 @@ export async function GET(
   }
 
   const polls = await prisma.poll.findMany({
+    where: {
+      isPublic: true,
+    },
     include: {
       votes: true,
     },

@@ -1,8 +1,8 @@
 "use client";
 
 import { PollsReturnType } from "@/lib/types";
-import { fetchPolls } from "@/utils/apis";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchPublicPolls } from "@/utils/apis";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 export default function Polls({ initialPolls }: Props) {
   const { data: polls } = useQuery({
     queryKey: ["polls"],
-    queryFn: fetchPolls,
+    queryFn: fetchPublicPolls,
     initialData: initialPolls,
   });
 

@@ -14,7 +14,7 @@ export const fetchPoll = async (pollId: string | undefined) => {
   return response.data as PollType;
 };
 
-export const fetchPolls = async () => {
+export const fetchPublicPolls = async () => {
   const response = await axios.get(`http://localhost:3000/api/private/polls`);
 
   return response.data as PollsReturnType;
