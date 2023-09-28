@@ -53,7 +53,7 @@ export default async function Poll({ params }: Poll) {
       <div>
         <h1 className="text-3xl mb-4">{title}</h1>
         <div className="flex items-center gap-2 text-slate-600 mb-3 justify-between">
-          <div>
+          <div className="flex items-center gap-2">
             <Avatar profileImg={image} />
             <p>{`${name}`} asked ...</p>
           </div>
