@@ -3,9 +3,21 @@ import { BarChartBigIcon } from "lucide-react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
 import Avatar from "./avatar";
+import prisma from "../../../prisma/prismaClient";
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions);
+
+  if (!session?.user.id) return null;
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session?.user?.id,
+    },
+    include: {
+      polls: true,
+    },
+  });
 
   return (
     <div className="h-[75px] w-full font-medium flex items-center text-2xl justify-between">
@@ -19,7 +31,15 @@ export default async function Navbar() {
         </Link>
       </div>
       {session ? (
-        <ul>
+        <ul className="flex items-center gap-6">
+          {user && user.polls.length > 0 ? (
+            <Link
+              href="/polls/me"
+              className="text-slate-900 underline-offset-4 underline dark:text-slate-50 text-lg"
+            >
+              My Polls
+            </Link>
+          ) : null}
           <li>
             <Avatar profileImg={session?.user?.image} />
           </li>
