@@ -29,7 +29,7 @@ export default function Polls({ initialPolls }: Props) {
           >
             <h2 className="text-lg">{`${title}`}</h2>
             <p className="text-sm text-slate-500">
-              Total {totalVotes === 1 ? "vote" : "votes"}: {`${totalVotes}`}
+              Total votes: {`${totalVotes}`}
             </p>
             <Link href={`/polls/${id}`} className="underline">
               Visit poll

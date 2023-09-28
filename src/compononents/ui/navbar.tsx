@@ -10,15 +10,6 @@ export default async function Navbar() {
 
   if (!session?.user.id) return null;
 
-  const user = await prisma.user.findUnique({
-    where: {
-      id: session?.user?.id,
-    },
-    include: {
-      polls: true,
-    },
-  });
-
   return (
     <div className="h-[75px] w-full font-medium flex items-center text-2xl justify-between">
       <div>
@@ -32,14 +23,12 @@ export default async function Navbar() {
       </div>
       {session ? (
         <ul className="flex items-center gap-6">
-          {user && user.polls.length > 0 ? (
-            <Link
-              href="/polls/me"
-              className="text-slate-900 underline-offset-4 underline dark:text-slate-50 text-lg"
-            >
-              My Polls
-            </Link>
-          ) : null}
+          <a
+            href="/polls/me"
+            className="text-slate-900 underline-offset-4 underline dark:text-slate-50 text-lg"
+          >
+            My Polls
+          </a>
           <li>
             <Avatar profileImg={session?.user?.image} />
           </li>
