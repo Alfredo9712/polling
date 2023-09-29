@@ -39,11 +39,11 @@ export default async function Poll({ params }: Poll) {
   });
 
   const session = await getServerSession(authOptions);
-  console.log("sessionID", session?.user.id);
+
   if (!poll) return <h1>Poll not found</h1>;
 
   const { title, description, author, userId } = poll;
-  console.log("authorId", userId);
+
   const { image, name } = author;
   return (
     <div>

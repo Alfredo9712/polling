@@ -57,7 +57,6 @@ export default function PollForm() {
       onSubmit={async (values, { resetForm }) => {
         const { pollOptions, title, description, isPublic } = values;
         const titleAndDescription = [title, description];
-        console.log(titleAndDescription);
         const threshold = 0.9;
 
         const model = await toxicity.load(threshold, ["insult", "toxicity"]);
