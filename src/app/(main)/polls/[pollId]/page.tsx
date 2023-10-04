@@ -57,11 +57,6 @@ export default async function Poll({ params }: Poll) {
             <Avatar profileImg={image} />
             <p>{`${name}`} asked ...</p>
           </div>
-          {userId === session?.user.id ? (
-            <div>
-              <ClosePoll initialPollId={pollId} />
-            </div>
-          ) : null}
         </div>
         <h2 className="text-xl ">{description}</h2>
       </div>
