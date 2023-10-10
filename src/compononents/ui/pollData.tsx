@@ -99,13 +99,10 @@ export default function PollData({ initialPoll }: Props) {
     const { votes, text } = winningPoll;
 
     return (
-      <div>
-        <h2>Poll is closed, here are the results</h2>
-
-        <h3>
-          {text} was the winner with {votes.length} votes
-        </h3>
-
+      <div className="pt-10">
+        <h2 className="text-2xl text-center">
+          Poll is closed, {text} was the winner with {votes.length} votes
+        </h2>
         <div className="h-80 w-full">
           <BarChart
             title={"result"}
